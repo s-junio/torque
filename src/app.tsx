@@ -1,6 +1,4 @@
 import { useEffect } from "preact/hooks";
-import preactLogo from "./assets/preact.svg";
-import viteLogo from "/vite.svg";
 import "./app.css";
 import { useSignal } from "@preact/signals";
 import { SystemInfo, getSystemInfo } from "./backend";
@@ -37,7 +35,6 @@ function formatBytes(sizeBytes: number | bigint): string {
 }
 
 export function App() {
-  const count = useSignal(0);
 
   const systemInfo = useSignal<SystemInfo | undefined>(undefined);
 
@@ -71,15 +68,14 @@ export function App() {
       ) : null}
 
       {systemInfo.value
-        ? systemInfo.value.disks.map((disk) => (
-            <div>
-              <span>{disk.name}</span> |
-              <span>{formatBytes(disk.total_space)}</span> |
-              <span>{formatBytes(disk.available_space)}</span>
-            </div>
-          ))
+        ? systemInfo.value.disks.map((disk, index) => (
+          <Disk name={disk.name ? disk.name : `Disk ${index + 1}`} availableSpace={disk.available_space} totalSpace={disk.total_space} />
+        ))
         : null}
-        <Disk name="System"/>
+      {systemInfo.value?.host_name}
+      {systemInfo.value?.kernel_version}
+      {systemInfo.value?.os}
+      {systemInfo.value?.os_version}
     </>
   );
 }

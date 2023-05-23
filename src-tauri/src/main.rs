@@ -19,14 +19,13 @@ fn main() {
 }
 
 #[derive(serde::Serialize)]
-
 struct SystemDisk {
     name: String,
     available_space: u64,
     total_space: u64,
 }
-#[derive(serde::Serialize)]
 
+#[derive(serde::Serialize)]
 struct SystemInfo {
     total_memory: u64,
     used_memory: u64,
@@ -55,7 +54,7 @@ fn get_system_info(state: State<SystemWrapper>) -> SystemInfo {
         });
     }
 
-    let system_info = SystemInfo {
+    SystemInfo {
         total_memory: sys.total_memory(),
         used_memory: sys.used_memory(),
         os: sys.name(),
@@ -65,30 +64,6 @@ fn get_system_info(state: State<SystemWrapper>) -> SystemInfo {
         host_name: sys.host_name(),
         cpu_usage: sys.global_cpu_info().cpu_usage(),
         disks: disks,
-    };
-
-    println!("getting components/DISKS");
-
-    for component in sys.components() {
-        println!("{:?}", component);
     }
 
-    println!("done components/DISKS");
-
-    println!("=> system:");
-    println!("cpu usage: {}%", system_info.cpu_usage);
-    // RAM and swap information:
-    println!("total memory: {} bytes", system_info.total_memory);
-    println!("used memory : {} bytes", system_info.used_memory);
-
-    // Display system information:
-    println!("System name:             {:?}", system_info.os);
-    println!("System kernel version:   {:?}", system_info.kernel_version);
-    println!("System OS version:       {:?}", system_info.os_version);
-    println!("System host name:        {:?}", system_info.host_name);
-
-    // Number of CPUs:
-    println!("NB CPUs: {}", system_info.cpu_count);
-
-    return system_info;
 }

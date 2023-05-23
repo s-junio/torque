@@ -1,7 +1,7 @@
 import { invoke } from '@tauri-apps/api'
 
 type SystemDisk = {
-    name: String;
+    name: string;
     total_space: number;
     available_space: number;
 }
